@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stewart Collins – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2444;
+    --blue: #1a3d72;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --bg: #f0f2f7;
+    --card: #ffffff;
+    --text: #111827;
+    --muted: #5a6575;
+    --border: #dde3ee;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  header {
+    background: var(--navy);
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: ''; position: absolute; top: -60px; left: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.18); color: var(--gold-light);
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 16px; border: 1px solid rgba(201,168,76,0.3);
+  }
+  header h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800; color: white; letter-spacing: -0.02em; line-height: 1.1;
+  }
+  header h1 span { color: var(--gold); }
+  header p { margin: 10px auto 0; color: rgba(255,255,255,0.65); font-size: 1rem; max-width: 480px; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 20px 60px; }
+
+  .section-label {
+    font-family: 'Sora', sans-serif; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .app-card {
+    display: flex; align-items: center; gap: 20px;
+    background: var(--navy); border-radius: 14px; padding: 24px 28px;
+    text-decoration: none; color: white; margin-bottom: 40px;
+    border: 1px solid rgba(201,168,76,0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(15,36,68,0.2);
+  }
+  .app-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(15,36,68,0.3); border-color: var(--gold); }
+  .app-icon {
+    font-size: 2.6rem; flex-shrink: 0;
+    background: rgba(201,168,76,0.15); width: 64px; height: 64px;
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  }
+  .app-card h3 { font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+  .app-card p { font-size: 0.83rem; color: rgba(255,255,255,0.6); line-height: 1.4; }
+  .app-badge {
+    margin-left: auto; flex-shrink: 0;
+    background: var(--gold); color: var(--navy);
+    font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+  }
+
+  .gallery-section { margin-bottom: 48px; }
+  .gallery-section-header { margin-bottom: 16px; }
+  .gallery-section-header h2 { font-family: 'Sora', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .gallery-section-header p { font-size: 0.82rem; color: var(--muted); }
+
+  .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+
+  .photo-card {
+    background: var(--card); border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+  }
+  .photo-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.13); }
+  .photo-card img { width: 100%; height: 140px; object-fit: cover; display: block; }
+  .photo-card-body { padding: 9px 11px 11px; }
+  .photo-card-body .tag {
+    font-size: 0.67rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--gold);
+    background: rgba(201,168,76,0.1); padding: 2px 8px; border-radius: 10px;
+    display: inline-block; margin-bottom: 4px;
+  }
+  .photo-card-body p { font-size: 0.77rem; color: var(--muted); line-height: 1.4; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92); z-index: 999;
+    align-items: center; justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 8px; }
+  .lightbox-close {
+    position: absolute; top: 18px; right: 22px;
+    color: white; font-size: 2rem; cursor: pointer; opacity: 0.8;
+  }
+  .lightbox-close:hover { opacity: 1; }
+
+  footer { text-align: center; padding: 24px; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 480px) {
+    .photo-grid { grid-template-columns: 1fr 1fr; }
+    .app-card { flex-wrap: wrap; }
+    .app-badge { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">✕</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<header>
+  <div class="header-tag">Work Portfolio</div>
+  <h1>Stewart <span>Collins</span></h1>
+  <p>General Store Manager · Warehouse Operations · FRP/GRP Composites</p>
+</header>
+
+<div class="container">
+
+  <div class="section-label">Live Project</div>
+  <a class="app-card" href="https://psystew1.github.io/marky-inventory/" target="_blank" rel="noopener">
+    <div class="app-icon">📦</div>
+    <div>
+      <h3>Marky Industries – Inventory PWA</h3>
+      <p>Custom-built inventory management system — raw materials, consumables, stock counts, reorder tracking and job usage. Developed from scratch.</p>
+    </div>
+    <div class="app-badge">Live App ↗</div>
+  </a>
+
+  <!-- CHELMSTONE: 18 photos -->
+  <div class="gallery-section">
+    <div class="section-label">Chelmstone</div>
+    <div class="gallery-section-header">
+      <h2>Chelmstone – Cross River Rail</h2>
+      <p>Warehouse & logistics supporting the Cross River Rail platform build upgrade, Brisbane</p>
+    </div>
+    <div class="photo-grid">
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-01.jpg')">
+        <img src="photos/chelmstone-01.jpg" alt="Picking & Packing">
+        <div class="photo-card-body"><span class="tag">Picking & Packing</span><p>Order fulfilment and dispatch for rail construction materials</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-02.jpg')">
+        <img src="photos/chelmstone-02.jpg" alt="Warehousing">
+        <div class="photo-card-body"><span class="tag">Warehousing</span><p>Stock organisation and inventory management</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-03.jpg')">
+        <img src="photos/chelmstone-03.jpg" alt="Plant & Equipment">
+        <div class="photo-card-body"><span class="tag">Plant & Equipment</span><p>Plant equipment used in warehousing and logistics operations</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-04.jpg')">
+        <img src="photos/chelmstone-04.jpg" alt="Infrastructure">
+        <div class="photo-card-body"><span class="tag">Infrastructure</span><p>Electrical and mechanical infrastructure supporting site operations</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-05.jpg')">
+        <img src="photos/chelmstone-05.jpg" alt="Site Works">
+        <div class="photo-card-body"><span class="tag">Site Works</span><p>Ground works and site preparation for platform upgrades</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-06.jpg')">
+        <img src="photos/chelmstone-06.jpg" alt="Site Works">
+        <div class="photo-card-body"><span class="tag">Site Works</span><p>Ongoing site maintenance and project delivery support</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-07.jpg')">
+        <img src="photos/chelmstone-07.jpg" alt="Fork Maintenance">
+        <div class="photo-card-body"><span class="tag">Fork Maintenance</span><p>Pre-operational checks and minor servicing on site forklifts</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-08.jpg')">
+        <img src="photos/chelmstone-08.jpg" alt="Warehousing">
+        <div class="photo-card-body"><span class="tag">Warehousing</span><p>Racking, storage layout and inbound goods management</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-09.jpg')">
+        <img src="photos/chelmstone-09.jpg" alt="Receiving & Dispatch">
+        <div class="photo-card-body"><span class="tag">Receiving & Dispatch</span><p>Inbound deliveries and supplier coordination</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-10.jpg')">
+        <img src="photos/chelmstone-10.jpg" alt="Delivery Management">
+        <div class="photo-card-body"><span class="tag">Delivery Management</span><p>Managing bulk material deliveries to site</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-11.jpg')">
+        <img src="photos/chelmstone-11.jpg" alt="Logistics">
+        <div class="photo-card-body"><span class="tag">Logistics</span><p>Fleet and transport coordination for rail project supply chain</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-12.jpg')">
+        <img src="photos/chelmstone-12.jpg" alt="Plant Maintenance">
+        <div class="photo-card-body"><span class="tag">Plant Maintenance</span><p>Scheduled upkeep and reactive repairs on warehouse plant</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-13.jpg')">
+        <img src="photos/chelmstone-13.jpg" alt="Plant Maintenance">
+        <div class="photo-card-body"><span class="tag">Plant Maintenance</span><p>Heavy equipment maintenance and inspection</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-14.jpg')">
+        <img src="photos/chelmstone-14.jpg" alt="Stock Management">
+        <div class="photo-card-body"><span class="tag">Stock Management</span><p>Bulk product storage and stock count management</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-15.jpg')">
+        <img src="photos/chelmstone-15.jpg" alt="Warehousing">
+        <div class="photo-card-body"><span class="tag">Warehousing</span><p>High-volume consumable storage and distribution</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-16.jpg')">
+        <img src="photos/chelmstone-16.jpg" alt="Logistics">
+        <div class="photo-card-body"><span class="tag">Logistics</span><p>Outbound freight and material movement coordination</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-17.jpg')">
+        <img src="photos/chelmstone-17.jpg" alt="Receiving">
+        <div class="photo-card-body"><span class="tag">Receiving</span><p>Goods receipting and quality checking on arrival</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/chelmstone-18.jpg')">
+        <img src="photos/chelmstone-18.jpg" alt="Site Operations">
+        <div class="photo-card-body"><span class="tag">Site Operations</span><p>Day-to-day site operations across the Chelmstone facility</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MARKY: 5 photos -->
+  <div class="gallery-section">
+    <div class="section-label">Marky Industries</div>
+    <div class="gallery-section-header">
+      <h2>Marky Industries – FRP/GRP Composites</h2>
+      <p>General Store Manager at a fibreglass composites manufacturer, Crestmead QLD</p>
+    </div>
+    <div class="photo-grid">
+
+      <div class="photo-card" onclick="openLightbox('photos/marky-01.jpg')">
+        <img src="photos/marky-01.jpg" alt="Raw Materials">
+        <div class="photo-card-body"><span class="tag">Raw Materials</span><p>Receiving and managing incoming resin and composite materials</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/marky-02.jpg')">
+        <img src="photos/marky-02.jpg" alt="Chemical Storage">
+        <div class="photo-card-body"><span class="tag">Chemical Storage</span><p>Compliant storage and handling of resins and catalysts</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/marky-03.jpg')">
+        <img src="photos/marky-03.jpg" alt="Store Management">
+        <div class="photo-card-body"><span class="tag">Store Management</span><p>Managing consumable inventory across production and warehouse</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/marky-04.jpg')">
+        <img src="photos/marky-04.jpg" alt="Stock Control">
+        <div class="photo-card-body"><span class="tag">Stock Control</span><p>Bulk stock organisation and reorder management</p></div>
+      </div>
+
+      <div class="photo-card" onclick="openLightbox('photos/marky-05.jpg')">
+        <img src="photos/marky-05.jpg" alt="Inventory System">
+        <div class="photo-card-body"><span class="tag">Inventory System</span><p>Custom PWA built in-house for real-time stock tracking</p></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>Stewart Collins &nbsp;·&nbsp; Brisbane, QLD &nbsp;·&nbsp; Portfolio</footer>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>
